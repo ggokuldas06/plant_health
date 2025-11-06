@@ -1,0 +1,35 @@
+#  **Project Title:** LeafCare – Plant Disease Detection and Severity Assessment using CNNs
+
+##  **Problem Statement**
+
+Plant diseases are a significant cause of reduced agricultural productivity and crop loss worldwide. Early detection and proper assessment of disease severity can greatly help farmers and gardeners take timely preventive measures. However, manual disease identification requires expert knowledge and may not be readily accessible, especially in remote or resource-limited areas.
+
+The goal of this project is to design and implement a **Convolutional Neural Network (CNN)-based system** that can:
+
+1. **Detect whether a plant leaf is healthy or diseased** based on an image input.
+2. **Classify the severity level** of the disease (if present) into one of three categories:
+
+   * **Danger** – Severe infection that requires immediate attention.
+   * **Mild** – Early-stage infection that can be managed with basic care.
+   * **Not Severe** – Minor issues that can be monitored and controlled easily.
+3. **Provide safe, non-chemical care suggestions** depending on the predicted severity level.
+
+### Objectives
+
+* Develop a CNN-based model for automated leaf disease detection.
+* Implement a multi-output network that predicts both presence and severity of disease.
+* Create a guidance system that maps predictions to safe, context-aware recommendations.
+* Ensure explainability through visualization methods like Grad-CAM.
+* Build an easy-to-use interface or API for user interaction.
+
+### Problem Significance
+
+This system can support farmers, gardeners, and researchers by providing an accessible tool for **real-time disease diagnosis** and management. By reducing dependency on expert availability and speeding up the detection process, it can promote healthier crops and improved yield outcomes.
+
+### Expected Outcome
+
+* Accurate classification of plant leaf images into disease and severity categories.
+* Generation of short, safe guidance suggestions for disease management.
+* Visualization outputs that explain which regions of the leaf influenced the model’s prediction.
+
+> **Disclaimer:** The system is an assistive tool and not a replacement for professional agricultural advice.

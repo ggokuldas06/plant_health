@@ -1,0 +1,74 @@
+Dataset Structure
+
+The dataset is organized into two CSV files:
+
+1. leafcare_dataset.csv
+
+This file contains the metadata and labels for each image used in training, validation, and testing.
+
+Column Name	      Description
+image_id	        Unique identifier for each image sample
+image_path	      Relative or absolute path to the image file
+disease_present	  Binary label indicating presence of disease: 0 (Healthy) or 1 (Diseased)
+  
+severity	Severity label: danger, mild, not_severe, or none
+split	Dataset partition: train, val, or test
+
+Example Entry:
+
+image_id: LC0001
+image_path: images/train/img_0001.jpg
+disease_present: 1
+severity: mild
+split: train
+
+File Path: /mnt/data/leafcare_sample/leafcare_dataset.csv
+
+2. leafcare_guidance_templates.csv
+
+This file defines short, safe care suggestions for each possible prediction outcome, ensuring non-toxic, actionable, and easily understandable guidance.
+
+Key	Message
+no_disease	No disease signs detected by the model. Keep regular care: adequate watering, good light, and monitor leaves for changes.
+danger_high	Possible severe disease. Isolate the plant to prevent spread, remove heavily damaged leaves, ensure good airflow, and consider a targeted fungicide per local guidance.
+danger_low	Possible severe disease but low confidence. Recheck with a clearer photo, isolate the plant, and seek expert advice.
+mild_high	Mild disease signs. Trim affected spots, avoid overhead watering, and improve light/airflow.
+mild_low	Mild signs (low confidence). Monitor for 3–5 days, keep leaves dry, and ensure consistent watering (not soggy).
+not_severe_high	Not severe. Remove a few damaged leaves, water regularly, and check for pests.
+not_severe_low	Minor changes detected with low confidence. Retake a photo in good light and monitor.
+
+File Path: /mnt/data/leafcare_sample/leafcare_guidance_templates.csv
+
+🔎 Data Usage
+
+The dataset is designed to train a multi-task CNN model that outputs:
+
+Disease presence probability.
+
+Severity classification among three levels.
+
+The model predictions are then linked to the guidance templates for interpretability and user advice.
+
+📊 Dataset Statistics (Sample Version)
+
+Training samples: 80
+
+Validation samples: 20
+
+Test samples: 20
+
+Total samples: 120
+
+Classes: 4 (none, not_severe, mild, danger)
+
+🕵️ Notes
+
+Image paths are placeholders; replace them with actual dataset images before model training.
+
+Ensure class balance using resampling or weighted losses.
+
+The dataset supports explainable AI workflows (e.g., Grad-CAM visualization).
+
+Disclaimer: The dataset is for educational and research purposes only. All care recommendations should be reviewed by agricultural experts before field deployment.\
+
+  link: https://www.kaggle.com/datasets/emmarex/plantdisease

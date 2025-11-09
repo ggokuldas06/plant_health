@@ -1,0 +1,157 @@
+Leaf Health Detection API – Documentation
+Overview
+
+The Leaf Health Detection API analyzes an uploaded image of a plant leaf and estimates its health condition. It classifies the leaf as Healthy, Mildly Unhealthy, or Severe, provides a health percentage, and suggests basic first-aid recommendations based on observed symptoms.
+
+This API is designed to help farmers or plant owners quickly assess plant health through image analysis.
+
+Features
+
+Accepts a photo of a leaf as input.
+
+Automatically detects the leaf region in the image.
+
+Estimates the level of damage (yellowing, lesions, holes).
+
+Calculates a health percentage (0–100%).
+
+Categorizes the leaf into one of three health classes:
+
+Healthy (≥90%)
+
+Mildly Unhealthy (70–89%)
+
+Severe (<70%)
+
+Provides rule-based first-aid suggestions.
+
+Tech Stack
+
+FastAPI – REST API framework
+
+OpenCV – Image processing and analysis
+
+NumPy – Numerical computations
+
+Pillow (PIL) – Image handling
+
+Uvicorn – ASGI server for local or production deployment
+
+Installation
+1. Clone or copy the source code
+
+Save the API script as app.py.
+
+2. Install dependencies
+pip install fastapi uvicorn pillow opencv-python-headless numpy
+
+3. Run the API
+uvicorn app:app --reload --port 8000
+
+
+The API will be available at:
+http://localhost:8000
+
+API Endpoints
+POST /predict
+
+Analyzes a single uploaded leaf image and returns the health assessment.
+
+Request
+
+Method: POST
+
+Endpoint: /predict
+
+Content-Type: multipart/form-data
+
+Parameter:
+
+file: Image file (JPEG, PNG, etc.)
+
+Example (curl)
+curl -X POST "http://localhost:8000/predict" \
+-F "file=@leaf_sample.jpg"
+
+Example (Python)
+import requests
+
+url = "http://localhost:8000/predict"
+file = {"file": open("leaf_sample.jpg", "rb")}
+response = requests.post(url, files=file)
+print(response.json())
+
+Response
+Successful Response (HTTP 200)
+{
+  "category": "Mildly Unhealthy",
+  "health_percentage": 82,
+  "signals": {
+    "yellowing_fraction": 0.12,
+    "lesion_fraction": 0.04,
+    "edge_density": 0.0031
+  },
+  "first_aid": [
+    "Check watering: keep soil evenly moist, not waterlogged.",
+    "Feed with a balanced fertilizer; consider a nitrogen boost if older leaves yellow first.",
+    "Test soil pH; many crops prefer ~6.0–6.8."
+  ]
+}
+
+Error Response
+{
+  "status": "error",
+  "message": "Couldn't detect a clear leaf. Please upload a closer, well-lit photo on a plain background."
+}
+
+How It Works
+
+Preprocessing:
+The image is cropped, resized, and converted to RGB.
+
+Leaf Detection:
+The system extracts the leaf area using HSV color segmentation (green pixel range).
+
+Damage Detection:
+
+Yellow/Brown areas: Detected via hue and saturation thresholds.
+
+Dark spots: Identified as low-brightness, high-saturation regions.
+
+Edge density: Used to approximate holes or chewed edges.
+
+Health Scoring:
+The proportion of damaged pixels determines a damage ratio:
+
+health_percentage = 100 - (damage_ratio * 100)
+
+
+Classification:
+Based on the computed health percentage:
+
+≥ 90% → Healthy
+
+70–89% → Mildly Unhealthy
+
+< 70% → Severe
+
+First-Aid Recommendations:
+Rule-based suggestions derived from the most prominent symptom (yellowing, spots, or edges).
+
+Limitations
+
+Works best on images with a single, well-lit leaf on a plain background.
+
+May not perform well under poor lighting or with complex backgrounds.
+
+Does not yet use a deep learning model for fine lesion segmentation (optional future upgrade).
+
+Future Improvements
+
+Integration of a trained CNN (e.g., MobileNetV3) or U-Net segmentation model.
+
+Addition of confidence scoring.
+
+Mobile deployment using TensorFlow Lite or Core ML.
+
+Multi-leaf batch analysis.
